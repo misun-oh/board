@@ -9,7 +9,14 @@ public class PageNavi {
 	boolean prev;
 	boolean next;
 	
+	Criteria cri;
+	int total;
+	
 	public PageNavi(Criteria cri, int total) {
+	
+		this.cri = cri;
+		this.total = total;
+		
 		
 		endPage = (int)Math.ceil((cri.getPageNo()/10.0)) * 10;
 		startPage = endPage-9;

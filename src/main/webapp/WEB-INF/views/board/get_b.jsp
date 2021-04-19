@@ -9,8 +9,20 @@ if('${resMsg}' != ''){
 	alert('${resMsg}');	
 }
 
+function move(url){
+	document.moveForm.action = url;
+	document.moveForm.submit();
+	
+}
 </script>
 
+
+<form name = moveForm>
+	<input type=text name=pageNo value=${criteria.pageNo }>
+	<input type=text name=type value=${criteria.type }>
+	<input type=text name=keyword value=${criteria.keyword }>
+	<input type=text name=bno value=${vo.bno }>
+</form>
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -47,10 +59,10 @@ if('${resMsg}' != ''){
                                 
                             </div>
                             
-                            <button type="button" class="btn btn-default" onClick="location.href='/board/edit?bno=${vo.bno}'">수정</button>
-							<button class="btn btn-default" onClick="location.href='/board/delete?bno=${vo.bno}'">삭제</button>
-							<button class="btn btn-default" onClick="location.href='/board/list'">목록</button>
-	
+                            <button type="button" class="btn btn-default" onClick="move('/board/edit')">수정</button>
+							<button class="btn btn-default" onClick="move('/board/delete')">삭제</button>
+							<button class="btn btn-default" onClick="move('/board/list')">목록</button>
+							
                             
                         </div>
                         <!-- /.panel-body -->

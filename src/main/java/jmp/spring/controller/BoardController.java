@@ -21,7 +21,7 @@ public class BoardController {
 	BoardService service;
 	
 	@GetMapping("/board/delete")
-	public String delete(BoardVo vo, RedirectAttributes rttr) {
+	public String delete(Criteria cri, BoardVo vo, RedirectAttributes rttr) {
 		
 		int res = service.delete(vo.getBno());
 		String resMsg = "";
@@ -29,12 +29,16 @@ public class BoardController {
 		if(res>0) {
 			resMsg = vo.getBno()+"번 게시글이 삭제 되었습니다.";
 			rttr.addFlashAttribute("resMsg", resMsg);
+			rttr.addAttribute("pageNo", cri.getPageNo());
+			rttr.addAttribute("type", cri.getType());
+			rttr.addAttribute("keyword", cri.getKeyword());
 			return "redirect:/board/list";
 		} else {
 		// 삭제 실패 -> 상세화면
 			resMsg = "게시글 삭제 처리에 실패 했습니다.";
-			rttr.addFlashAttribute("resMsg", resMsg);
-			rttr.addAttribute("bno", vo.getBno());
+			rttr.addAttribute("pageNo", cri.getPageNo());
+			rttr.addAttribute("type", cri.getType());
+			rttr.addAttribute("keyword", cri.getKeyword());
 			return "redirect:/board/get";
 		}
 		
@@ -42,7 +46,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/board/edit")
-	public String editExe(BoardVo vo, RedirectAttributes rttr) {
+	public String editExe(Criteria cri, BoardVo vo, RedirectAttributes rttr) {
 		
 		int res = service.update(vo);
 		String resMsg = "";
@@ -54,13 +58,17 @@ public class BoardController {
 		}
 		
 		rttr.addAttribute("bno", vo.getBno());
+		rttr.addAttribute("pageNo", cri.getPageNo());
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
+		
 		rttr.addFlashAttribute("resMsg",resMsg);
 		return "redirect:/board/get";
 		
 	}
 	
 	@GetMapping("/board/get")
-	public String get(BoardVo vo,Model model) {
+	public String get(Criteria cri, BoardVo vo,Model model) {
 		log.info("============"+vo.getBno());
 		// 상세정보 조회
 		vo = service.get(vo.getBno());
@@ -74,7 +82,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/edit")
-	public String edit(BoardVo vo,Model model) {
+	public String edit(Criteria cri, BoardVo vo,Model model) {
 		log.info("============"+vo.getBno());
 		// 상세정보 조회
 		vo = service.get(vo.getBno());
@@ -110,7 +118,7 @@ public class BoardController {
 		
 		
 		model.addAttribute("list", service.getList(cri));
-		model.addAttribute("pageNavi",new PageNavi(cri, service.getTotal()));
+		model.addAttribute("pageNavi",new PageNavi(cri, service.getTotal(cri)));
 		log.info("getList()================");
 		
 		return "/board/list_b";

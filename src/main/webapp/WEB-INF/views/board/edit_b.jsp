@@ -6,7 +6,11 @@
 
 <form method="post" action="/board/edit">
 
+	<input type=text name=pageNo value=${criteria.pageNo }>
+	<input type=text name=type value=${criteria.type }>
+	<input type=text name=keyword value=${criteria.keyword }>
 	<input type=text name=bno value=${vo.bno }>
+	
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
