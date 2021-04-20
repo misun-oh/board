@@ -15,6 +15,12 @@ public class Criteria {
 		this.pageNo = 1;
 		this.amount = 10;
 	}
+
+	public Criteria(int page, int amount) {
+		// TODO Auto-generated constructor stub
+		this.pageNo = page;
+		this.amount = amount;
+	}
 	
 	
 }
