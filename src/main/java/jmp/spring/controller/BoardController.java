@@ -20,6 +20,11 @@ public class BoardController {
 	@Autowired
 	BoardService service;
 	
+	@GetMapping("/board/reply")
+	public void reply() {
+		
+	}
+	
 	@GetMapping("/board/delete")
 	public String delete(Criteria cri, BoardVo vo, RedirectAttributes rttr) {
 		
