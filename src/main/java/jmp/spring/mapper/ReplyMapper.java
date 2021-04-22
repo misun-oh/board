@@ -13,9 +13,9 @@ public interface ReplyMapper {
 	
 	public int insertReply(ReplyVo vo);
 		
-	public int deleteReply(int rno);
+	public int delete(int rno);
 	
-	public int updateReply(ReplyVo vo);
+	public int update(ReplyVo vo);
 	
 	public ReplyVo get(int rno);
 }

@@ -11,5 +11,9 @@ public interface ReplyService {
 	
 	public int insert(ReplyVo vo);
 	
-	public ReplyVo get(int bno);
+	public ReplyVo get(int rno);
+	
+	public int delete(int rno);
+	
+	public int update(ReplyVo vo);
 }
