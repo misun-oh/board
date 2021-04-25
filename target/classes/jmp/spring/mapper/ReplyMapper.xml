@@ -48,5 +48,23 @@
 	<update id="update">
 	update tbl_reply set reply=#{reply}, replyer=#{replyer}, updatedate=sysdate where rno = #{rno}
 	</update>
+	
 	<delete id="delete">delete tbl_reply where rno = #{rno}</delete>
+	
+	<select id="getTotal" resultType="int">
+	
+	select count(*) from tbl_reply where bno=#{bno}
+	</select>
+	
+	<update id="updateReplyCnt">
+		update tbl_board 
+		set replycnt = (select count(*) from tbl_reply where bno=#{bno})
+		where bno=#{bno}
+	
+	</update>
+	
+	<select id="getBno">
+	select bno from tbl_reply where rno = #{rno}
+	
+	</select>
 </mapper>

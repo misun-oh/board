@@ -4,10 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import jmp.spring.mapper.BoardMapper;
 import jmp.spring.mapper.ReplyMapper;
-import jmp.spring.vo.BoardVo;
 import jmp.spring.vo.Criteria;
 import jmp.spring.vo.ReplyVo;
 
@@ -24,9 +23,12 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
+	@Transactional
 	public int insert(ReplyVo vo) {
 		// TODO Auto-generated method stub
-		return mapper.insertReply(vo);
+		int res = mapper.insertReply(vo);
+		mapper.updateReplyCnt(vo.getBno());
+		return res;
 	}
 
 	@Override
@@ -38,13 +40,26 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public int delete(int rno) {
 		// TODO Auto-generated method stub
-		return mapper.delete(rno);
+		int res = mapper.delete(rno);
+		int bno = mapper.getBno();
+		mapper.updateReplyCnt(bno);
+
+		return res;
 	}
 
 	@Override
+	@Transactional
 	public int update(ReplyVo vo) {
 		// TODO Auto-generated method stub
-		return mapper.update(vo);
+		int res = mapper.update(vo);
+
+		return res; 
+	}
+
+	@Override
+	public int getTotal(int bno) {
+		// TODO Auto-generated method stub
+		return mapper.getTotal(bno);
 	}
 
 

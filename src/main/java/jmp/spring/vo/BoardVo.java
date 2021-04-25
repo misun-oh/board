@@ -5,17 +5,18 @@ import lombok.Data;
 @Data
 public class BoardVo {
 	
-	// 번호
+	// 踰덊샇
 	int bno;
-	// 제목
+	// �젣紐�
 	String title;
-	// 내용
+	// �궡�슜
 	String content;
-	// 작성자
+	// �옉�꽦�옄
 	String writer;
-	// 작성일시
+	// �옉�꽦�씪�떆
 	String regdate;
-	// 수정일시
+	// �닔�젙�씪�떆
 	String updatedate;
 
+	String replycnt;
 }

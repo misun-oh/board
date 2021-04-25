@@ -60,6 +60,24 @@
 			values (#{bno}, #{title}, #{content}, #{writer}, sysdate)
 	</insert>
 	
+	<insert id="boardBackup">
+		INSERT INTO tbl_board_bk
+		    ( SELECT
+		        seq_board_bk.NEXTVAL,
+		        bno,
+		        title,
+		        content,
+		        writer,
+		        regdate,
+		        updatedate,
+		        sysdate
+		    FROM
+		        tbl_board
+		    WHERE
+		        bno = #{bno}
+		    )
+	</insert>
+	
 	<select id="get" resultType="jmp.spring.vo.BoardVo">
 		select * from tbl_board where bno=#{bno}
 	</select>

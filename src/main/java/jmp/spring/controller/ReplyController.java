@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jmp.spring.service.ReplyService;
 import jmp.spring.vo.Criteria;
+import jmp.spring.vo.PageNavi;
 import jmp.spring.vo.ReplyVo;
 import lombok.extern.log4j.Log4j;
 
@@ -27,16 +28,24 @@ public class ReplyController {
 	ReplyService service;
 	
 	@GetMapping("/reply/list/{pageNo}/{bno}")
-	public List<ReplyVo> getList(@PathVariable("pageNo") int pageNo,
+	public Map<String, Object> getList(@PathVariable("pageNo") int pageNo,
 			@PathVariable("bno") int bno) {
 		Criteria cri = new Criteria(pageNo,10);
 		
-		return service.getList(cri, bno);
+		int total = service.getTotal(bno);
+		PageNavi pageNavi = new PageNavi(cri, total);
+		List<ReplyVo> list = service.getList(cri, bno);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pageNavi", pageNavi);
+		map.put("list", list);
+		return map;
 		
 	}
 	
 	@PostMapping("/reply/update")
 	public Map<String, Object> update(@RequestBody ReplyVo vo){
+		
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		int res = service.update(vo);
