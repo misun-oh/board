@@ -20,6 +20,11 @@ public class BoardController {
 	@Autowired
 	BoardService service;
 	
+	@GetMapping("/board/attach")
+	public void attach() {
+		
+	}
+	
 	@GetMapping("/board/reply")
 	public void reply() {
 		

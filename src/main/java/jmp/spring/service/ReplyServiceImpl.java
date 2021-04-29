@@ -41,7 +41,7 @@ public class ReplyServiceImpl implements ReplyService {
 	public int delete(int rno) {
 		// TODO Auto-generated method stub
 		int res = mapper.delete(rno);
-		int bno = mapper.getBno();
+		int bno = mapper.getBno(rno);
 		mapper.updateReplyCnt(bno);
 
 		return res;

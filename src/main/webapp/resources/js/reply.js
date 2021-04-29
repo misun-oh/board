@@ -161,7 +161,7 @@ function updateAjax(){
 			bno : $("#bno").val(),
 			rno : $("#rno").val(),
 			reply : $("#reply").val(),
-			replyer : $("#replyer").val(),
+			replyer : $("#replyer").val()
 	};
 	
 	$.ajax({
@@ -176,7 +176,7 @@ function updateAjax(){
 			
 			$("#myModal").modal("hide");
 			// 등록후 리스트를 다시 조회
-			getAjaxList(1);
+			getAjaxList($("#replyPageNo").val());
 		},
 		error : function(xhr, status, error){
 			console.log(error);
@@ -234,6 +234,8 @@ function addModal(){
 }
 
 function replyPageing(pageNavi){
+	$("#replyPageNo").val(pageNavi.cri.pageNo);
+	
 	var pageNaviContent = "";
 	var startPage = pageNavi.startPage;
 	
