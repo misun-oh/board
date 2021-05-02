@@ -3,7 +3,7 @@ package jmp.spring.vo;
 import lombok.Data;
 
 @Data
-public class AttachFileDTO {
+public class AttachFileVo {
 	
   // 첨부파일 이름
   private String fileName;

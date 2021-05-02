@@ -63,21 +63,45 @@ $(document).ready(function(){
 		$.ajax({
 		    	url: '/ajaxFileUpload',
 		    	method: 'post',
+		    	dataType : 'json',
 		    	
 		    	processData: false,
 		      	contentType: false,
 		      	data: formData,
 		      	
 		      	success: function(result){
-		      		console.log(result);
-		      	}
+		      		console.log("result" + result);
+		      		var fileListContent = "";
+		      		$.each(result, function (index, item){
+		      			var filePath = encodeURIComponent(item.uploadPath+item.uuid+"_"+item.fileName);
+		      			var s_filePath = encodeURIComponent(item.uploadPath+"s_"+item.uuid+"_"+item.fileName);
+		      			if(item.image){
+		      				fileListContent +=
+		      					"<li><a href='/download?fileName=" + filePath +"'>"
+		      					+ "<img src='/display?fileName=" + s_filePath+"'>"
+		      					+ item.fileName
+		      					+ "</a></li>";		
+		      			} else {
+		      				fileListContent +=
+		      					"<li><a href='/download?fileName="+ filePath +"'>"
+			      				+ item.fileName
+		      					+ "</a></li>";		
+		      			}
+		      	});
+		      	
+		      	// 업로드된 파일 이름을 화면에 출력
+		      	$("#fileList").html(fileListContent);
+		      		
+		     }
 		}); //$.ajax
 	}); 
 });
-
 
 </script>
 <form name="fileUploadForm">
 <input type=file name=uploadFile multiple>
 <button type="button" id = "uploadBtn">upload</button>
+<div>
+	<ul id=fileList></ul>
+</div>
 </form>
