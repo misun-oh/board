@@ -54,7 +54,8 @@ $(document).ready(function(){
 		
 		// form 데이터 생성
 		var formData = new FormData(document.fileUploadForm);
-		console.log("formData.get",formData.get("uploadFile"));
+		console.log("uploadFile",formData.get("uploadFile"));
+		console.log("attachNo",formData.get("attachNo"));
 		
 		var uploadFile = formData.get("uploadFile");
 		
@@ -71,26 +72,35 @@ $(document).ready(function(){
 		      	
 		      	success: function(result){
 		      		console.log("result" + result);
+		      		
+		      		// 파일리스트 번호 세팅
+		      		$("#attachNo").val(result[0].attachNo);
+		      		
 		      		var fileListContent = "";
 		      		$.each(result, function (index, item){
-		      			var filePath = encodeURIComponent(item.uploadPath+item.uuid+"_"+item.fileName);
-		      			var s_filePath = encodeURIComponent(item.uploadPath+"s_"+item.uuid+"_"+item.fileName);
-		      			if(item.image){
-		      				fileListContent +=
-		      					"<li><a href='/download?fileName=" + filePath +"'>"
-		      					+ "<img src='/display?fileName=" + s_filePath+"'>"
-		      					+ item.fileName
-		      					+ "</a></li>";		
-		      			} else {
-		      				fileListContent +=
-		      					"<li><a href='/download?fileName="+ filePath +"'>"
-			      				+ item.fileName
-		      					+ "</a></li>";		
-		      			}
-		      	});
+
+		      			// URI로 데이터를 전달하기 위해서 문자열을 인코딩
+			      		var savePath= encodeURIComponent(item.savePath);
+			      		var s_savePath= encodeURIComponent(item.s_savePath);
+			      		if(item.image =='Y'){
+				      		fileListContent +=
+							      		"<li><a href='/download?fileName=" + savePath+"'>"
+							      		+ "<img src='/display?fileName=" + s_savePath+"'>"
+							      		+ "</a></li>";		
+			      		} else {
+				      		fileListContent +=
+							      		"<li><a href='/download?fileName="+ savePath+"'>"
+							      		+ item.fileName
+							      		+ "</a></li>";		
+			      		}
+		      		});
+
 		      	
 		      	// 업로드된 파일 이름을 화면에 출력
 		      	$("#fileList").html(fileListContent);
+		      	// 파일창 초기화
+		      	$("#uploadFile").remove();
+		      	$("#uploadFileLabel").append("<input type=file name=uploadFile id=uploadFile multiple>");
 		      		
 		     }
 		}); //$.ajax
@@ -99,8 +109,12 @@ $(document).ready(function(){
 
 </script>
 <form name="fileUploadForm">
-<input type=file name=uploadFile multiple>
+파일리스트 번호 : <input type="text" name="attachNo" id="attachNo" value="0"><br>
+<label id ="uploadFileLabel"></label>
+<input type=file name=uploadFile id=uploadFile multiple>
+
 <button type="button" id = "uploadBtn">upload</button>
+
 <div>
 	<ul id=fileList></ul>
 </div>
