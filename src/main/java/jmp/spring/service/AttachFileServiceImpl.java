@@ -30,8 +30,8 @@ public class AttachFileServiceImpl implements AttachFileService {
 	}
 
 	@Override
-	public int delete(int attachNo) {
-		return mapper.delete(attachNo);
+	public int delete(String uuid) {
+		return mapper.delete(uuid);
 	}
 
 	@Override

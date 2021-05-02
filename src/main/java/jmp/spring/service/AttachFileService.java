@@ -14,5 +14,5 @@ public interface AttachFileService {
 	
 	public AttachFileVo get(String uuid);
 	
-	public int delete(int attachNo);
+	public int delete(String uuid);
 }

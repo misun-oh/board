@@ -16,7 +16,7 @@
 	</insert>
 	
 	<delete id="delete" parameterType="jmp.spring.vo.AttachFileVo">
-		delete tbl_attach where attachNo = #{attachNo}
+		delete tbl_attach where uuid = #{uuid}
 	</delete>
 	
 	<select id="get" resultType="jmp.spring.vo.AttachFileVo">

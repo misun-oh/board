@@ -14,7 +14,7 @@ public interface AttachFileMapper {
 	
 	public AttachFileVo get(String uuid);
 		
-	public int delete(int attachNo);
+	public int delete(String uuid);
 	
 }
 	

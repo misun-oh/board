@@ -9,7 +9,9 @@ import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
@@ -21,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -85,6 +88,17 @@ public class AttachFileController {
 		List<AttachFileVo> list = service.getList(attachNo);
 		
 		return list;
+		
+	}
+	
+	@GetMapping("/AttachFileDelete/{uuid}/{attachNo}")
+	public Map<String, Object> delete(@PathVariable("attachNo") int attachNo,
+									@PathVariable("uuid") String uuid) {
+		int res = service.delete(uuid);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", res>0?"success":"fail");
+		map.put("list", service.getList(attachNo));
+		return map;
 		
 	}
 	
@@ -160,8 +174,8 @@ public class AttachFileController {
 	private String getFolder() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String str = sdf.format(new Date());
-		String uploadPath = str.replace("-", File.separator)+"\\";
-		File saveFile = new File(uploadPath);
+		String uploadPath = str.replace("-", File.separator)+File.separator;
+		File saveFile = new File(ATTACHES_DIR+uploadPath);
 		// 폴더가 없으면 생성 해줍니다!
 		if(!saveFile.exists()) {
 			if(saveFile.mkdirs()) {
