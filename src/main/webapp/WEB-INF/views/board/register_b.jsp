@@ -4,7 +4,6 @@
 
 <jsp:include page="/resources/header/header.jsp"/>
 
-<form method="post" action="/board/register">
 
         <div id="page-wrapper">
             <div class="row">
@@ -22,6 +21,8 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
+                        <form method="post" action="/board/register">
+                        
                             <div class="form-group">
                                 <label>제목</label>
                                 <input class="form-control" value="${vo.title}" name=title>
@@ -36,9 +37,15 @@
                                 <input class="form-control" name=writer value="${vo.writer}">
                                 
                             </div>
-                            
+       						<input type=text name=attachNo id="attachNo" value=${vo.attachNo }>
                             <button type="submit">등록</button>
-						    
+                            
+                            
+                        </form>
+                        
+						    <div>
+                            <jsp:include page="attach.jsp"></jsp:include>
+                            </div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -49,5 +56,5 @@
             
         </div>
         <!-- /#page-wrapper -->
-</form>      
+      
 <jsp:include page="/resources/header/bottom.jsp"/>

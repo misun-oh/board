@@ -2,14 +2,19 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 
+
 <jsp:include page="/resources/header/header.jsp"/>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-<form method="post" action="/board/edit">
+<script type="text/javascript">
 
-	<input type=text name=pageNo value=${criteria.pageNo }>
-	<input type=text name=type value=${criteria.type }>
-	<input type=text name=keyword value=${criteria.keyword }>
-	<input type=text name=bno value=${vo.bno }>
+$(document).ready(function(){
+
+	//파일 리스트 보여주기
+	getFileList(document.editForm.attachNo.value);
+});
+</script>
+
 	
         <div id="page-wrapper">
             <div class="row">
@@ -27,6 +32,13 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
+                        <form method="post" action="/board/edit" name=editForm>
+
+						<input type=text name=pageNo value=${criteria.pageNo }>
+						<input type=text name=type value=${criteria.type }>
+						<input type=text name=keyword value=${criteria.keyword }>
+						<input type=text name=bno value=${vo.bno }>
+						<input type=text name=attachNo id="attachNo" value=${vo.attachNo }>
                             <div class="form-group">
                                 <label>제목</label>
                                 <input class="form-control" value="${vo.title}" name=title>
@@ -42,8 +54,11 @@
                                 
                             </div>
                             
-                            <button type="submit">수정</button>
-						    
+                            <button type="submit" >수정</button>
+						    </form> 
+						    <div>
+						    <jsp:include page="attach.jsp"></jsp:include>
+						    </div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -54,5 +69,5 @@
             
         </div>
         <!-- /#page-wrapper -->
-</form>      
+     
 <jsp:include page="/resources/header/bottom.jsp"/>

@@ -44,13 +44,16 @@ public class AttachFileController {
     public AttachFileService service;
 
 	@PostMapping("/ajaxFileUpload")
-	public List<AttachFileVo> upload(MultipartFile[] uploadFile,int attachNo) {
+	public Map<String, String> upload(MultipartFile[] uploadFile,int attachNo) {
+		Map<String, String> map = new HashMap<String, String>();
+		
 		
 		// 파일리스트 번호가 없는 경우 신규 생성
 		if(attachNo == 0) {
 			attachNo = service.getAttachNo();
 		}
 		
+		int res = 0;
 		for(MultipartFile file : uploadFile) {
 
 			log.info("=============="+file.getOriginalFilename());
@@ -75,7 +78,9 @@ public class AttachFileController {
 		    	}
 		    	
 		    	// 업로드 파일의 정보를 DB에 저장한다.
-		    	service.insert(vo);
+		    	if(service.insert(vo)>0) {
+		    		res++;
+		    	}
 		    	
 
 			} catch (Exception e) {
@@ -84,6 +89,16 @@ public class AttachFileController {
 
 		}
 		
+		
+		map.put("attachNo", attachNo+"");
+		map.put("result", res+"건 등록되었습니다.");
+		
+		return map;
+	}
+	
+	@GetMapping("/AttachFileList/{attachNo}")
+	public List<AttachFileVo> getList(@PathVariable("attachNo") int attachNo){
+
 		// 첨부파일 리스트를 조회
 		List<AttachFileVo> list = service.getList(attachNo);
 		

@@ -19,4 +19,6 @@ public class BoardVo {
 	String updatedate;
 
 	String replycnt;
+	
+	int attachNo;
 }

@@ -69,7 +69,7 @@ function checkExtension(files){
 
 $(document).ready(function(){
 	//업로드 버튼을 클릭하면 이벤트 발생
-	$("#uploadBtn").on("click", function(e){
+	$("#uploadFile").on("change", function(e){
 		
 		// 업로드 파일 사이즈및 종류 체크
 		if(!checkExtension(document.fileUploadForm.uploadFile.files)){
@@ -95,7 +95,9 @@ $(document).ready(function(){
 		      	data: formData,
 		      	
 		      	success: function(result){
-		      		setFilelist(result);
+		      		console.log("result",result);
+		      		getFileList(result.attachNo);
+		      		
 		     	}
 		}); //$.ajax
 	}); 
@@ -111,7 +113,7 @@ function AttachFileDelete(uuid, attachNo){
 		
 		success : function(result){
 			if(result.result == 'success'){
-				setFilelist(result.list);
+				getFileList(attachNo);
 			}
 		}
 		
@@ -119,14 +121,31 @@ function AttachFileDelete(uuid, attachNo){
 	});
 }
 
-function setFilelist(result){
-	console.log("setFilelist" + result);
-		if(result.length == 0){
-			$("#fileList").html("");
-			return;
+function getFileList(attachNo, fileHide){
+	$.ajax({
+		url : '/AttachFileList/' + attachNo,
+		method : 'get',
+		dataType : 'json',
+		
+		success : function(data){
+			fileListView(data, attachNo, fileHide);
 		}
-		// 파일리스트 번호 세팅
-		$("#attachNo").val(result[0].attachNo);
+		
+	});
+}
+
+function fileListView(result, attachNo, fileHide){
+	console.log("setFilelist" + result);
+	// 파일리스트 번호 세팅
+	$("#attachNo").val(attachNo);	
+	
+	if(result.length == 0){
+		$("#fileList").html("");
+		return;
+	
+	
+	}
+		
 		
 		var fileListContent = "";
 		$.each(result, function (index, item){
@@ -154,7 +173,10 @@ function setFilelist(result){
 	$("#fileList").html(fileListContent);
 	// 파일창 초기화
 	$("#uploadFile").remove();
-	$("#uploadFileLabel").append("<input type=file name=uploadFile id=uploadFile multiple>");
+	if(fileHide!=true){
+		$("#uploadFileLabel").append("<input type=file name=uploadFile id=uploadFile multiple>");	
+	}
+	
 		
 }
 
@@ -164,7 +186,6 @@ function setFilelist(result){
 <label id ="uploadFileLabel"></label>
 <input type=file name=uploadFile id=uploadFile multiple>
 
-<button type="button" id = "uploadBtn">upload</button>
 
 <div class="uploadResult">
 	<ul id=fileList></ul>

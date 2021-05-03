@@ -17,6 +17,13 @@ function move(url){
 	document.moveForm.submit();
 	
 }
+
+$(document).ready(function(){
+	// 파일 업로드 제거
+	$("#uploadFile").remove();
+	//파일 리스트 보여주기
+	getFileList('${vo.attachNo}',true);
+});
 </script>
 
 
@@ -61,12 +68,22 @@ function move(url){
                                 <input readonly class="form-control" value="${vo.regdate}">
                                 
                             </div>
-                            
+                           
+                           <div>
+                           
+                           </div>
+                           
+                           <div>
+                           <jsp:include page="attach.jsp"></jsp:include>
+                           </div>
+                           
                             <div class='form-group'>
                             <button type="button" class="btn btn-default" onClick="move('/board/edit')">수정</button>
 							<button class="btn btn-default" onClick="move('/board/delete')">삭제</button>
 							<button class="btn btn-default" onClick="move('/board/list')">목록</button>
 							</div>
+							
+							
 							
 							  <!-- 답글 -->
                            <div class='row'>
@@ -107,7 +124,7 @@ function move(url){
 						  </div>
 						</div>
 						<!-- ./ end row -->	
-                            
+                           
                         </div>
                         <!-- /.panel-body -->
                     </div>
