@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 
-	<style>
+<style>
 .uploadResult {
 	width: 100%;
 	background-color: gray;
@@ -66,10 +66,8 @@ function checkExtension(files){
  	
  }
 
-
-$(document).ready(function(){
-	//업로드 버튼을 클릭하면 이벤트 발생
-	$("#uploadFile").on("change", function(e){
+function fileOnChange(){
+	
 		
 		// 업로드 파일 사이즈및 종류 체크
 		if(!checkExtension(document.fileUploadForm.uploadFile.files)){
@@ -100,9 +98,10 @@ $(document).ready(function(){
 		      		
 		     	}
 		}); //$.ajax
-	}); 
+	
 
-});
+}
+
 
 function AttachFileDelete(uuid, attachNo){
 	console.log("AttachFileDelete",uuid+"/"+attachNo);
@@ -137,6 +136,12 @@ function getFileList(attachNo, fileHide){
 function fileListView(result, attachNo, fileHide){
 	console.log("setFilelist" + result);
 	// 파일리스트 번호 세팅
+	$.each(document.getElementsByName("attachNo"),function(index, item){
+		item.value=attachNo;
+	});
+	
+
+	
 	$("#attachNo").val(attachNo);	
 	
 	if(result.length == 0){
@@ -174,7 +179,7 @@ function fileListView(result, attachNo, fileHide){
 	// 파일창 초기화
 	$("#uploadFile").remove();
 	if(fileHide!=true){
-		$("#uploadFileLabel").append("<input type=file name=uploadFile id=uploadFile multiple>");	
+		$("#uploadFileLabel").append("<input type=file name=uploadFile id=uploadFile multiple onChange=fileOnChange()>");	
 	}
 	
 		
@@ -184,7 +189,7 @@ function fileListView(result, attachNo, fileHide){
 <form name="fileUploadForm">
 파일리스트 번호 : <input type="text" name="attachNo" id="attachNo" value="0"><br>
 <label id ="uploadFileLabel"></label>
-<input type=file name=uploadFile id=uploadFile multiple>
+<input type=file name=uploadFile id=uploadFile multiple onChange=fileOnChange()>
 
 
 <div class="uploadResult">

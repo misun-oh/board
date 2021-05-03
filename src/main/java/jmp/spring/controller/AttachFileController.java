@@ -109,7 +109,20 @@ public class AttachFileController {
 	@GetMapping("/AttachFileDelete/{uuid}/{attachNo}")
 	public Map<String, Object> delete(@PathVariable("attachNo") int attachNo,
 									@PathVariable("uuid") String uuid) {
+		
+		AttachFileVo vo = service.get(uuid);
+		
+		File file = new File(ATTACHES_DIR+vo.getSavePath());
+		if(file.exists()) {
+			file.delete();	
+		}
+		File s_file = new File(ATTACHES_DIR+vo.getS_savePath());
+		if(s_file.exists()) {
+			s_file.delete();	
+		}
+		
 		int res = service.delete(uuid);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("result", res>0?"success":"fail");
 		map.put("list", service.getList(attachNo));

@@ -20,7 +20,10 @@
 	</delete>
 	
 	<select id="get" resultType="jmp.spring.vo.AttachFileVo">
-		select * from tbl_attach where uuid = #{uuid}
+		select 
+		 uploadPath||uuid||'_'||fileName savePath
+				, uploadPath||'s_'||uuid||'_'||fileName s_savePath
+		 from tbl_attach where uuid = #{uuid}
 	</select>
 	
 	<select id="getList" resultType="jmp.spring.vo.AttachFileVo">
