@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 
 <head>
 
@@ -251,8 +252,16 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
+                        
+                        <c:choose>
+                        
+                        <c:when test="${sessionScope.loginUser.id != null }">
+                        	<li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                        </c:when>
+                        <c:otherwise>
+                        	<li><a href="/login"><i class="fa fa-sign-out fa-fw"></i> Login</a></li>
+                        </c:otherwise>
+                        </c:choose>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>

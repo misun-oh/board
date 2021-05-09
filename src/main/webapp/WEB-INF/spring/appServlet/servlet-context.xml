@@ -3,9 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -28,6 +30,29 @@
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.support.StandardServletMultipartResolver"> 
 	</beans:bean>
+	
+	
+	<beans:bean id="sampleInterceptor"	class="jmp.spring.interceptor.SampleInterceptor"></beans:bean>
+			
+	<beans:bean id="lobinInterceptor" class="jmp.spring.interceptor.LoginUserInterceptor"></beans:bean>
+	
+	<beans:bean id="authInterceptor" class="jmp.spring.interceptor.AuthInterceptor"></beans:bean>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/board/list"/>
+			<beans:ref bean="sampleInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/loginAction"/>
+			<beans:ref bean="lobinInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/board/*"/>
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
 	
 </beans:beans>
 
